@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+
+  mysql:
+    image: mysql:5.7
+    hostname: dbAgrotis
+    container_name: dbAgrotis
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: dbAgrotis
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
