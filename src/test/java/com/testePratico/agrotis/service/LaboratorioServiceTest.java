@@ -68,6 +68,17 @@ public class LaboratorioServiceTest {
         assertEquals(response.getNome(), optional.get().getNome());
     }
 
+    @Test
+    public void erroAoBuscaLaboratorioPorID(){
+        Mockito.when(laboratorioRepository.findById(Mockito.anyLong())).thenThrow(new RegraNegocioException("Laboratotio " + laboratorio1.getId() + " não encontrado"));
+        try {
+            laboratorioService.laboratorioPorID(laboratorio1.getId());
+        }catch (Exception e){
+            assertEquals(RegraNegocioException.class, e.getClass());
+            assertEquals("Laboratotio " + laboratorio1.getId() + " não encontrado", e.getMessage());
+        }
+    }
+
     public void iniciarObjetos(){
         laboratorio1 = new Laboratorio(1L, "teste1");
         optional = Optional.of(new Laboratorio(2L, "teste1"));
