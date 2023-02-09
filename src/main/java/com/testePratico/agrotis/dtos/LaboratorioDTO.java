@@ -1,8 +1,9 @@
 package com.testePratico.agrotis.dtos;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 
@@ -12,6 +13,7 @@ public class LaboratorioDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
+    @NotBlank(message = "Nome")
+    @Length(min = 3, max = 50, message = "Nome")
     private String nome;
 }

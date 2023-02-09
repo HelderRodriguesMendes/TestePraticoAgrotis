@@ -1,17 +1,18 @@
 package com.testePratico.agrotis.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class Laboratorio implements Serializable {
 
@@ -21,4 +22,13 @@ public class Laboratorio implements Serializable {
 
     @Column(length = 75, nullable = false)
     private String nome;
+
+    public Laboratorio(Long id, String nome) {
+        this.id = id;
+        this.nome = nome;
+    }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "laboratorio")
+    private List<Servico> pedidos = new ArrayList<>();
 }
