@@ -82,6 +82,28 @@ public class LaboratorioServiceTest {
     }
 
     @Test
+    public void laboratorioPorNome(){
+        Mockito.when(laboratorioRepository.findByNome(Mockito.anyString())).thenReturn(optional);
+        Laboratorio response = laboratorioService.laboratorioPorNome(optional.get().getNome());
+
+        assertNotNull(response);
+        assertEquals(Laboratorio.class, response.getClass());
+        assertEquals(response.getId(), optional.get().getId());
+        assertEquals(response.getNome(), optional.get().getNome());
+    }
+
+    @Test
+    public void erroAoBuscaLaboratorioPorNome(){
+        Mockito.when(laboratorioRepository.findByNome(Mockito.anyString())).thenThrow(new RegraNegocioException("Laboratotio " + laboratorio1.getNome() + " não encontrado"));
+        try {
+            laboratorioService.laboratorioPorNome(laboratorio1.getNome());
+        }catch (Exception e){
+            assertEquals(RegraNegocioException.class, e.getClass());
+            assertEquals("Laboratotio " + laboratorio1.getNome() + " não encontrado", e.getMessage());
+        }
+    }
+
+    @Test
     public void listarTodos(){
         Mockito.when(laboratorioRepository.findAll()).thenReturn(List.of(laboratorio1, laboratorio2));
         List<Laboratorio> laboratorios = laboratorioService.listarTodos();
