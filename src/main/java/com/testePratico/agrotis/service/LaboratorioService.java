@@ -4,8 +4,6 @@ import com.testePratico.agrotis.exception.RegraNegocioException;
 import com.testePratico.agrotis.model.Laboratorio;
 import com.testePratico.agrotis.repository.LaboratorioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,9 +28,9 @@ public class LaboratorioService {
         return laboratorioRepository.save(laboratorio);
     }
 
-    public List<Laboratorio> listarTodos(Pageable pageable){
-        Page<Laboratorio> laboratorios = laboratorioRepository.findAll(pageable);
-        return laboratorios.getContent();
+    public List<Laboratorio> listarTodos(){
+        List<Laboratorio> laboratorios = laboratorioRepository.findAll();
+        return laboratorios;
     }
 
     public Laboratorio laboratorioPorNome(String nome){

@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,6 +26,7 @@ public class LaboratorioServiceTest {
     private LaboratorioRepository laboratorioRepository;
 
     private Laboratorio laboratorio1;
+    private Laboratorio laboratorio2;
     private Optional<Laboratorio> optional;
 
     @BeforeEach
@@ -79,8 +81,25 @@ public class LaboratorioServiceTest {
         }
     }
 
+    @Test
+    public void listarTodos(){
+        Mockito.when(laboratorioRepository.findAll()).thenReturn(List.of(laboratorio1, laboratorio2));
+        List<Laboratorio> laboratorios = laboratorioService.listarTodos();
+
+        assertNotNull(laboratorios);
+        assertEquals(2, laboratorios.size());
+        assertEquals(Laboratorio.class, laboratorios.get(1).getClass());
+
+        assertEquals( laboratorios.get(0).getId(), laboratorio1.getId());
+        assertEquals( laboratorios.get(0).getNome(), laboratorio1.getNome());
+        assertEquals( laboratorios.get(1).getId(), laboratorio2.getId());
+        assertEquals( laboratorios.get(1).getNome(), laboratorio2.getNome());
+    }
+
     public void iniciarObjetos(){
         laboratorio1 = new Laboratorio(1L, "teste1");
+        laboratorio2 = new Laboratorio(2L, "teste2");
         optional = Optional.of(new Laboratorio(2L, "teste1"));
+
     }
 }
