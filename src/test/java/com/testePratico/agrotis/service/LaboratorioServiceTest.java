@@ -39,8 +39,9 @@ public class LaboratorioServiceTest {
         Laboratorio response = laboratorioService.salvar(laboratorio1);
         assertNotNull(response);
         assertEquals(Laboratorio.class, response.getClass());
-        assertEquals(Laboratorio.class, response.getClass());
         assertNotEquals(response.getId(), 10L);
+        assertEquals(response.getId(), laboratorio1.getId());
+        assertEquals(response.getNome(), laboratorio1.getNome());
 
     }
 
@@ -54,6 +55,17 @@ public class LaboratorioServiceTest {
             assertEquals(RegraNegocioException.class, e.getClass());
             assertEquals("O Laboratotio " + laboratorio1.getNome() + " já está cadastrado", e.getMessage());
         }
+    }
+
+    @Test
+    public void laboratorioPorID(){
+        Mockito.when(laboratorioRepository.findById(Mockito.anyLong())).thenReturn(optional);
+        Laboratorio response = laboratorioService.laboratorioPorID(optional.get().getId());
+
+        assertNotNull(response);
+        assertEquals(Laboratorio.class, response.getClass());
+        assertEquals(response.getId(), optional.get().getId());
+        assertEquals(response.getNome(), optional.get().getNome());
     }
 
     public void iniciarObjetos(){
