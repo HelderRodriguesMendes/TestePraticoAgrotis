@@ -29,13 +29,12 @@ public class Servico implements Serializable {
     @Column(name = "dataFinal", nullable = false)
     private LocalDateTime dataFinal;
 
-    @Column(name = "propriedadeId", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "propriedadeId", nullable = false)
     private Propriedade infosPropriedade;
 
-    @Column(name = "cnpj", nullable = false)
-    private  String cnpj;
-
-    @Column(name = "laboratorioId", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "laboratorioId", nullable = false)
     private Laboratorio laboratorio;
 
     @Column(name = "observacoes", length = 500)

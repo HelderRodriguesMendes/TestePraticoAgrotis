@@ -1,5 +1,6 @@
 package com.testePratico.agrotis.service;
 
+import com.testePratico.agrotis.exception.RegraNegocioException;
 import com.testePratico.agrotis.model.Laboratorio;
 import com.testePratico.agrotis.repository.LaboratorioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,10 @@ public class LaboratorioService {
     private LaboratorioRepository laboratorioRepository;
 
     public Laboratorio salvar(Laboratorio laboratorio){
+        Optional<Laboratorio> lab = laboratorioRepository.findByNome(laboratorio.getNome());
+        if(lab.isPresent()){
+            throw new RegraNegocioException("O Laboratotio " + laboratorio.getNome() + " já está cadastrado");
+        }
         return laboratorioRepository.save(laboratorio);
     }
 
@@ -31,16 +36,23 @@ public class LaboratorioService {
     }
 
     public Laboratorio laboratorioPorNome(String nome){
-        Laboratorio laboratorio = laboratorioRepository.findByNome(nome);
-        return laboratorio;
+        Optional<Laboratorio> laboratorio = laboratorioRepository.findByNome(nome);
+        if(laboratorio.isEmpty()){
+            throw new RegraNegocioException("Laboratotio " + nome + " não encontrado");
+        }
+        return laboratorio.get();
     }
 
     public Laboratorio laboratorioPorID(Long id){
         Optional<Laboratorio> laboratorioOptional = laboratorioRepository.findById(id);
+        if(laboratorioOptional.isEmpty()){
+            throw new RegraNegocioException("Laboratotio " + id + " não encontrado");
+        }
         return laboratorioOptional.get();
     }
 
     public void deletar(Long id){
+        laboratorioPorID(id);
         laboratorioRepository.deleteById(id);
     }
 }
