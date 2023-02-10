@@ -1,9 +1,8 @@
 package com.testePratico.agrotis.dtos;
 
-import com.testePratico.agrotis.model.Laboratorio;
-import com.testePratico.agrotis.model.Propriedade;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
@@ -13,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ServicoDTO implements Serializable {
 
     private Long id;
