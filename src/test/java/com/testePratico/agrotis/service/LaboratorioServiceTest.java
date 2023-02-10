@@ -37,7 +37,7 @@ public class LaboratorioServiceTest {
     }
 
     @Test
-    public void salvar(){
+    public void salvarTest(){
         Mockito.when(laboratorioRepository.save(Mockito.any())).thenReturn(laboratorio1);
         Laboratorio response = laboratorioService.salvar(laboratorio1);
         assertNotNull(response);
@@ -48,7 +48,7 @@ public class LaboratorioServiceTest {
     }
 
     @Test
-    public void editar(){
+    public void editarTest(){
         laboratorio1.setNome("teste de editar");
         Mockito.when(laboratorioRepository.save(Mockito.any())).thenReturn(laboratorio1);
         Laboratorio response = laboratorioService.editar(laboratorio1, laboratorio1.getId());
@@ -60,7 +60,7 @@ public class LaboratorioServiceTest {
     }
 
     @Test
-    public void ErroAoEditar(){
+    public void ErroAoEditarTest(){
         laboratorio1.setNome("teste de editar");
 
         Mockito.when(laboratorioRepository.save(Mockito.any())).thenReturn(laboratorio1);
@@ -75,7 +75,7 @@ public class LaboratorioServiceTest {
     }
 
     @Test
-    public void erroAoSalvar(){
+    public void erroAoSalvarTest(){
         Mockito.when(laboratorioRepository.findByNome(Mockito.anyString())).thenReturn(optional);
 
         try {
@@ -87,7 +87,7 @@ public class LaboratorioServiceTest {
     }
 
     @Test
-    public void laboratorioPorID(){
+    public void laboratorioPorIDTest(){
         Mockito.when(laboratorioRepository.findById(Mockito.anyLong())).thenReturn(optional);
         Laboratorio response = laboratorioService.laboratorioPorID(optional.get().getId());
 
@@ -98,7 +98,7 @@ public class LaboratorioServiceTest {
     }
 
     @Test
-    public void erroAoBuscaLaboratorioPorID(){
+    public void erroAoBuscaLaboratorioPorIDTest(){
         Mockito.when(laboratorioRepository.findById(Mockito.anyLong())).thenThrow(new NotFoundException("Laboratotio " + laboratorio1.getId() + " não encontrado"));
         try {
             laboratorioService.laboratorioPorID(laboratorio1.getId());
@@ -109,7 +109,7 @@ public class LaboratorioServiceTest {
     }
 
     @Test
-    public void laboratorioPorNome(){
+    public void laboratorioPorNomeTest(){
         Mockito.when(laboratorioRepository.findByNome(Mockito.anyString())).thenReturn(optional);
         Laboratorio response = laboratorioService.laboratorioPorNome(optional.get().getNome());
 
@@ -120,7 +120,7 @@ public class LaboratorioServiceTest {
     }
 
     @Test
-    public void erroAoBuscaLaboratorioPorNome(){
+    public void erroAoBuscaLaboratorioPorNomeTest(){
         Mockito.when(laboratorioRepository.findByNome(Mockito.anyString())).thenThrow(new NotFoundException("Laboratotio " + laboratorio1.getNome() + " não encontrado"));
         try {
             laboratorioService.laboratorioPorNome(laboratorio1.getNome());
@@ -131,7 +131,7 @@ public class LaboratorioServiceTest {
     }
 
     @Test
-    public void listarTodos(){
+    public void listarTodosTest(){
         Mockito.when(laboratorioRepository.findAll()).thenReturn(List.of(laboratorio1, laboratorio2));
         List<Laboratorio> laboratorios = laboratorioService.listarTodos();
 
@@ -145,12 +145,17 @@ public class LaboratorioServiceTest {
         assertEquals( laboratorios.get(1).getNome(), laboratorio2.getNome());
     }
 
-
+    @Test
+    public void deletarTest(){
+        Mockito.when(laboratorioRepository.findById(Mockito.anyLong())).thenReturn(optional);
+        Mockito.doNothing().when(laboratorioRepository).deleteById(Mockito.anyLong());
+        laboratorioService.deletar(optional.get().getId());
+        Mockito.verify(laboratorioRepository, Mockito.times(1)).deleteById(Mockito.anyLong());
+    }
 
     public void iniciarObjetos(){
         laboratorio1 = new Laboratorio(1L, "teste1");
         laboratorio2 = new Laboratorio(2L, "teste2");
         optional = Optional.of(new Laboratorio(2L, "teste1"));
-
     }
 }
