@@ -27,7 +27,7 @@ public class Propriedade implements Serializable {
 
     @Getter
     @Setter
-    @Column(name = "cnpj", nullable = false)
+    @Column(name = "cnpj", nullable = false, unique = true)
     private  String cnpj;
 
     @JsonIgnore
