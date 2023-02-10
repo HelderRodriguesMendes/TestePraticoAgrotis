@@ -3,7 +3,6 @@ package com.testePratico.agrotis.dtos.convercoes;
 import com.testePratico.agrotis.dtos.PropriedadeDTO;
 import com.testePratico.agrotis.dtos.response.PropriedadeResponse;
 import com.testePratico.agrotis.model.Propriedade;
-import com.testePratico.agrotis.model.Propriedade;
 import org.modelmapper.ModelMapper;
 
 public class PropriedadeConvercoes {

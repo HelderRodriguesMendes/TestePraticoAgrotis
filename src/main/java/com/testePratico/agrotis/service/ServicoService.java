@@ -30,20 +30,20 @@ public class ServicoService {
         return servicos;
     }
 
-    public Servico servicoPorNome(String nome){
-        Optional<Servico> servico = servicoRepository.findByNome(nome);
+    public List<Servico> servicoPorNome(String nome){
+        List<Servico> servico = servicoRepository.findByNome(nome);
         if(servico.isEmpty()){
             throw new NotFoundException("Servico " + nome + " não encontrado");
         }
-        return servico.get();
+        return servico;
     }
 
-    public Servico servicoPorCnpj(String cnpj){
-        Optional<Servico> servico = servicoRepository.findByCnpj(cnpj);
+    public List<Servico> servicoPorCnpj(String cnpj){
+        List<Servico> servico = servicoRepository.findByCnpj(cnpj);
         if(servico.isEmpty()){
             throw new NotFoundException("Servico " + cnpj + " não encontrado");
         }
-        return servico.get();
+        return servico;
     }
 
     public Servico servicoPorID(Long id){
