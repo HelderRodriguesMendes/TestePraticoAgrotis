@@ -39,7 +39,7 @@ public class LaboratorioController {
     }
 
     @GetMapping("/listarTodos")
-    public  ResponseEntity<List<LaboratorioResponse>> listarTodos(){
+    public ResponseEntity<List<LaboratorioResponse>> listarTodos(){
         List<Laboratorio> laboratorios = laboratorioService.listarTodos();
         List<LaboratorioResponse> laboratorioResponses = laboratorios.stream().map(laboratorio ->
             convercao.entidadeParaResponse(laboratorio)).collect(Collectors.toList());
@@ -47,7 +47,7 @@ public class LaboratorioController {
     }
 
     @GetMapping("/laboratorioPorNome")
-    public  ResponseEntity<LaboratorioResponse> laboratorioPorNome(@RequestParam String nome){
+    public ResponseEntity<LaboratorioResponse> laboratorioPorNome(@RequestParam String nome){
         Laboratorio laboratorio = laboratorioService.laboratorioPorNome(nome);
         return new ResponseEntity<>(convercao.entidadeParaResponse(laboratorio), HttpStatus.OK);
     }
