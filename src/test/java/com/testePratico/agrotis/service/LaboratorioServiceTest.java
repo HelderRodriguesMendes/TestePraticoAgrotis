@@ -1,5 +1,6 @@
 package com.testePratico.agrotis.service;
 
+import com.testePratico.agrotis.exception.NotFoundException;
 import com.testePratico.agrotis.exception.RegraNegocioException;
 import com.testePratico.agrotis.model.Laboratorio;
 import com.testePratico.agrotis.repository.LaboratorioRepository;
@@ -44,7 +45,33 @@ public class LaboratorioServiceTest {
         assertNotEquals(response.getId(), 10L);
         assertEquals(response.getId(), laboratorio1.getId());
         assertEquals(response.getNome(), laboratorio1.getNome());
+    }
 
+    @Test
+    public void editar(){
+        laboratorio1.setNome("teste de editar");
+        Mockito.when(laboratorioRepository.save(Mockito.any())).thenReturn(laboratorio1);
+        Laboratorio response = laboratorioService.editar(laboratorio1, laboratorio1.getId());
+        assertNotNull(response);
+        assertEquals(Laboratorio.class, response.getClass());
+        assertNotEquals(response.getId(), 10L);
+        assertEquals(response.getId(), laboratorio1.getId());
+        assertEquals(response.getNome(), laboratorio1.getNome());
+    }
+
+    @Test
+    public void ErroAoEditar(){
+        laboratorio1.setNome("teste de editar");
+
+        Mockito.when(laboratorioRepository.save(Mockito.any())).thenReturn(laboratorio1);
+        laboratorio1.setId(null);
+
+        try {
+            Laboratorio response = laboratorioService.editar(laboratorio1, null);
+        }catch (Exception e){
+            assertEquals(RegraNegocioException.class, e.getClass());
+            assertEquals("Os dados informados não estão cadastrados", e.getMessage());
+        }
     }
 
     @Test
@@ -72,11 +99,11 @@ public class LaboratorioServiceTest {
 
     @Test
     public void erroAoBuscaLaboratorioPorID(){
-        Mockito.when(laboratorioRepository.findById(Mockito.anyLong())).thenThrow(new RegraNegocioException("Laboratotio " + laboratorio1.getId() + " não encontrado"));
+        Mockito.when(laboratorioRepository.findById(Mockito.anyLong())).thenThrow(new NotFoundException("Laboratotio " + laboratorio1.getId() + " não encontrado"));
         try {
             laboratorioService.laboratorioPorID(laboratorio1.getId());
         }catch (Exception e){
-            assertEquals(RegraNegocioException.class, e.getClass());
+            assertEquals(NotFoundException.class, e.getClass());
             assertEquals("Laboratotio " + laboratorio1.getId() + " não encontrado", e.getMessage());
         }
     }
@@ -94,11 +121,11 @@ public class LaboratorioServiceTest {
 
     @Test
     public void erroAoBuscaLaboratorioPorNome(){
-        Mockito.when(laboratorioRepository.findByNome(Mockito.anyString())).thenThrow(new RegraNegocioException("Laboratotio " + laboratorio1.getNome() + " não encontrado"));
+        Mockito.when(laboratorioRepository.findByNome(Mockito.anyString())).thenThrow(new NotFoundException("Laboratotio " + laboratorio1.getNome() + " não encontrado"));
         try {
             laboratorioService.laboratorioPorNome(laboratorio1.getNome());
         }catch (Exception e){
-            assertEquals(RegraNegocioException.class, e.getClass());
+            assertEquals(NotFoundException.class, e.getClass());
             assertEquals("Laboratotio " + laboratorio1.getNome() + " não encontrado", e.getMessage());
         }
     }
@@ -117,6 +144,8 @@ public class LaboratorioServiceTest {
         assertEquals( laboratorios.get(1).getId(), laboratorio2.getId());
         assertEquals( laboratorios.get(1).getNome(), laboratorio2.getNome());
     }
+
+
 
     public void iniciarObjetos(){
         laboratorio1 = new Laboratorio(1L, "teste1");

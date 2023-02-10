@@ -1,5 +1,6 @@
 package com.testePratico.agrotis.service;
 
+import com.testePratico.agrotis.exception.NotFoundException;
 import com.testePratico.agrotis.exception.RegraNegocioException;
 import com.testePratico.agrotis.model.Laboratorio;
 import com.testePratico.agrotis.repository.LaboratorioRepository;
@@ -25,6 +26,9 @@ public class LaboratorioService {
 
     public Laboratorio editar(Laboratorio laboratorio, Long id){
         laboratorio.setId(id);
+        if(laboratorio.getId() == null){
+           throw new RegraNegocioException("Os dados informados não estão cadastrados");
+        }
         return laboratorioRepository.save(laboratorio);
     }
 
@@ -36,7 +40,7 @@ public class LaboratorioService {
     public Laboratorio laboratorioPorNome(String nome){
         Optional<Laboratorio> laboratorio = laboratorioRepository.findByNome(nome);
         if(laboratorio.isEmpty()){
-            throw new RegraNegocioException("Laboratotio " + nome + " não encontrado");
+            throw new NotFoundException("Laboratotio " + nome + " não encontrado");
         }
         return laboratorio.get();
     }
@@ -44,7 +48,7 @@ public class LaboratorioService {
     public Laboratorio laboratorioPorID(Long id){
         Optional<Laboratorio> laboratorioOptional = laboratorioRepository.findById(id);
         if(laboratorioOptional.isEmpty()){
-            throw new RegraNegocioException("Laboratotio " + id + " não encontrado");
+            throw new NotFoundException("Laboratotio " + id + " não encontrado");
         }
         return laboratorioOptional.get();
     }
