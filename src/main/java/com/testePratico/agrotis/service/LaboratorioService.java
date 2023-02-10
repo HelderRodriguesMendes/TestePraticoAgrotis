@@ -26,9 +26,7 @@ public class LaboratorioService {
 
     public Laboratorio editar(Laboratorio laboratorio, Long id){
         laboratorio.setId(id);
-        if(laboratorio.getId() == null){
-           throw new RegraNegocioException("Os dados informados não estão cadastrados");
-        }
+        laboratorioPorID(laboratorio.getId());
         return laboratorioRepository.save(laboratorio);
     }
 
