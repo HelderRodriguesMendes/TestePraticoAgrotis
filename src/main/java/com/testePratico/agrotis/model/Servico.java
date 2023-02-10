@@ -33,6 +33,9 @@ public class Servico implements Serializable {
     @JoinColumn(name = "propriedadeId", nullable = false)
     private Propriedade infosPropriedade;
 
+    @Column(name = "cnpj", nullable = false)
+    private  String cnpj;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "laboratorioId", nullable = false)
     private Laboratorio laboratorio;
