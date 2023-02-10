@@ -1,5 +1,6 @@
 package com.testePratico.agrotis.exception;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +31,12 @@ public class AgrotisExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleRegraNegocioException(RegraNegocioException ex, WebRequest request){
         String msgError = ex.getMessage();
         return handleExceptionInternal(ex, msgError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Object> objectNotFound(NotFoundException e, HttpServletRequest request){
+        String msgError = e.getMessage();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msgError);
     }
 
     @Override
