@@ -28,13 +28,14 @@ public class ServicoDTO implements Serializable {
     private LocalDateTime dataFinal;
 
     @NotNull
-    private Propriedade infosPropriedade;
+    private PropriedadeDTO infosPropriedade;
 
-    @NotNull
+    @NotBlank(message = "CNPJ")
     private  String cnpj;
 
     @NotNull
-    private Laboratorio laboratorio;
+    private LaboratorioDTO laboratorio;
 
+    @Length(min = 3, max = 500, message = "Observações")
     private String observacoes;
 }
