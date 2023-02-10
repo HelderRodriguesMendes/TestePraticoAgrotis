@@ -36,6 +36,6 @@ public class ServicoDTO implements Serializable {
     @NotNull
     private LaboratorioDTO laboratorio;
 
-    @Length(min = 3, max = 500, message = "Observações")
+    @Length(max = 500, message = "Observações")
     private String observacoes;
 }

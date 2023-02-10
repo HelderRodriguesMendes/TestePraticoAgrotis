@@ -107,14 +107,14 @@ public class ServicoServiceTest {
 
     @Test
     public void servicoPorNomeTest(){
-        Mockito.when(servicoRepository.findByNome(Mockito.anyString())).thenReturn(optional);
-        Servico response = servicoService.servicoPorNome(optional.get().getNome());
+        Mockito.when(servicoRepository.findByNome(Mockito.anyString())).thenReturn(List.of(servico1, servico2));
+        List<Servico> response = servicoService.servicoPorNome(servico1.getNome());
 
         assertNotNull(response);
-        assertEquals(Servico.class, response.getClass());
-        assertEquals(response.getId(), optional.get().getId());
-        assertEquals(response.getNome(), optional.get().getNome());
-        assertEquals(response.getCnpj(), optional.get().getCnpj());
+        assertEquals(Servico.class, response.get(1).getClass());
+        assertEquals(response.get(0).getId(), servico1.getId());
+        assertEquals(response.get(0).getNome(), servico1.getNome());
+        assertEquals(response.get(0).getCnpj(), servico1.getCnpj());
     }
 
     @Test
@@ -131,14 +131,14 @@ public class ServicoServiceTest {
 
     @Test
     public void servicoPorCnpjTest(){
-        Mockito.when(servicoRepository.findByCnpj(Mockito.anyString())).thenReturn(optional);
-        Servico response = servicoService.servicoPorCnpj(optional.get().getCnpj());
+        Mockito.when(servicoRepository.findByCnpj(Mockito.anyString())).thenReturn(List.of(servico1, servico2));
+        List<Servico> response = servicoService.servicoPorCnpj(servico1.getCnpj());
 
         assertNotNull(response);
-        assertEquals(Servico.class, response.getClass());
-        assertEquals(response.getId(), optional.get().getId());
-        assertEquals(response.getNome(), optional.get().getNome());
-        assertEquals(response.getCnpj(), optional.get().getCnpj());
+        assertEquals(Servico.class, response.get(0).getClass());
+        assertEquals(response.get(0).getId(), servico1.getId());
+        assertEquals(response.get(0).getNome(), servico1.getNome());
+        assertEquals(response.get(0).getCnpj(), servico1.getCnpj());
     }
 
     @Test
@@ -176,6 +176,7 @@ public class ServicoServiceTest {
         Mockito.doNothing().when(servicoRepository).deleteById(Mockito.anyLong());
         servicoService.deletar(optional.get().getId());
         Mockito.verify(servicoRepository, Mockito.times(1)).deleteById(Mockito.anyLong());
+        System.out.println(LocalDateTime.now());
     }
 
     private void iniciarObjetos(){

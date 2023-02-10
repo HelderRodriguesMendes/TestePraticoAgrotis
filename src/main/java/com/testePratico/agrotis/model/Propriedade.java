@@ -11,22 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Propriedade implements Serializable {
 
-    @Getter
-    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
-    @Setter
     @Column(length = 75, nullable = false)
     private String nome;
 
-    @Getter
-    @Setter
     @Column(name = "cnpj", nullable = false, unique = true)
     private  String cnpj;
 
